@@ -55,40 +55,54 @@ impl Default for StdoutWriter {
     }
 }
 
-/// The main function of the hello-world program.
-/// # Return Codes
-/// - `-1` if an error occurred while printing the message to the standard output
-/// - `0` if the program completed without any errors
-/// - `1` if arguments were supplied to the program
-fn main() {
-    // Create a scope to discard the argument iterator after it has no use.
-    {
-        // Get a copy of the program argument iterator.
-        let arg_iter = env::args();
-
-        // Since this program takes no arguments, it would
-        // be non-sensible to allow them to be supplied.
-        //
-        // Therefore, if any arguments are supplied, the program will exit with a return code of 1.
-        if arg_iter.len() > 1 {
-            // Skip the first argument, which is the program name, then
-            // collect the rest of the arguments into a vector.
-            let program_args = arg_iter.skip(1).collect::<Vec<String>>();
-
-            eprintln!("unexpected arguments: {:?}", program_args);
-            process::exit(exit_code::ARGUMENT_ERROR);
-        }
-    }
-
+/// A utility method for printing the given bytes to the standard output.
+/// It is not advised to call this method more than once at a time.
+/// Instead, create a new [StdoutWriter] and then call [StdoutWriter::print] without concern.
+pub fn print(bytes: &[u8]) -> Result<(), PrintError> {
     let mut writer = StdoutWriter::default();
+    writer.print(bytes)
+}
 
-    process::exit(match writer.print(MESSAGE_BYTES) {
+/// A utility method for printing the [MESSAGE_BYTES] array to the standard output.
+/// It is not advised to call this method more than once at a time.
+/// Instead, create a new [StdoutWriter] and then call [StdoutWriter::print] without concern.
+pub fn print_hello_world() -> Result<(), PrintError> {
+    crate::print(MESSAGE_BYTES)
+}
+
+/// If there are no arguments, return normally, else exit the program with the exit code 1.
+/// See [crate::exit_code::ARGUMENT_ERROR].
+fn restrict_arguments() {
+    // Get a copy of the program argument iterator.
+    let arg_iter = env::args();
+
+    // Since this program takes no arguments, it would be non-sensible to allow them to be supplied.
+    // Therefore, if any arguments are supplied, the program will exit with a return code of 1.
+    // (see [crate::exit_code::ARGUMENT_ERROR])
+    if arg_iter.len() > 1 {
+        // Skip the first argument, which is the program name, then
+        // collect the rest of the arguments into a vector.
+        let program_args = arg_iter.skip(1).collect::<Vec<String>>();
+
+        eprintln!("unexpected arguments: {:?}", program_args);
+        process::exit(exit_code::ARGUMENT_ERROR);
+    }
+}
+
+/// The main function of the hello-world program.
+/// See [crate::exit_code] for the possible exit codes of this program.
+fn main() {
+    // Make sure that the program is not being ran with any arguments.
+    restrict_arguments();
+
+    // Since we only print the message once, we can use the [crate::print_hello_world] method.
+    process::exit(match crate::print_hello_world() {
         // The program completed without any errors.
-        // Exit with a return code of 0.
+        // Exit with a return code of 0. (see [crate::exit_code::OKAY])
         Ok(_) => exit_code::OKAY,
 
         // The program encountered an error while printing the message to the standard output.
-        // Exit with a return code of -1.
+        // Exit with a return code of -1. (see [crate::exit_code::OPERATION_ERROR])
         Err(err) => {
             let action = match err.kind() {
                 PrintErrorKind::Write => "writing to the standard output",
