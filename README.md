@@ -1,3 +1,5 @@
+![Logo](LOGO.png)
+
 # hello-world
 
 ## Description
