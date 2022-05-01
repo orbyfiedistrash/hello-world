@@ -21,6 +21,6 @@ Written, tested, and first published to GitHub on 4/30/2022.
 
 | code | description |
 |:---:|:---:|
-| -1 | (unexpected) arguments were supplied to the program. |
+| -1 | an error occurred while running the program. |
 | 0 | the program did not encounter any errors while running. |
-| 1 | an error occurred while running the program. |
+| 1 | (unexpected) arguments were supplied to the program. |
