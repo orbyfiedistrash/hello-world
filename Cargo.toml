@@ -5,6 +5,9 @@ authors = ["ImajinDevon"]
 description = "A program/library to print a Hello World message to the standard output."
 edition = "2021"
 
+[features]
+time = []
+
 [dependencies]
 
 [profile.release]

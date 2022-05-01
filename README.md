@@ -2,8 +2,7 @@
 
 ## Description
 
-`hello-world` is a Rust program and library that prints the message `Hello, world!\n` to the console.\
-`\n` represents the console newline character.
+`hello-world` is a Rust program and library that prints the line `Hello, world!` to the console.
 
 ## Why was this created?
 
