@@ -63,15 +63,15 @@ pub fn print(bytes: &[u8]) -> Result<(), PrintError> {
     writer.print(bytes)
 }
 
-/// A utility method for printing the [MESSAGE_BYTES] array to the standard output.
+/// A utility method for printing the [crate::MESSAGE_BYTES] array to the standard output.
 /// It is not advised to call this method more than once at a time.
 /// Instead, create a new [StdoutWriter] and then call [StdoutWriter::print] without concern.
 pub fn print_hello_world() -> Result<(), PrintError> {
-    crate::print(MESSAGE_BYTES)
+    crate::print(crate::MESSAGE_BYTES)
 }
 
 /// If there are no arguments, return normally, else exit the program with the exit code 1.
-/// See [crate::exit_code::ARGUMENT_ERROR].
+/// See [exit_code::ARGUMENT_ERROR].
 fn restrict_arguments() {
     // Get a copy of the program argument iterator.
     let arg_iter = env::args();
@@ -90,7 +90,7 @@ fn restrict_arguments() {
 }
 
 /// The main function of the hello-world program.
-/// See [crate::exit_code] for the possible exit codes of this program.
+/// See [exit_code] for the possible exit codes of this program.
 fn main() {
     // Make sure that the program is not being ran with any arguments.
     restrict_arguments();
