@@ -4,23 +4,27 @@
 
 ## Description
 
-The program is exited when inputting an empty string.
+The program is exited when inputting an invalid username.
 
 ## How to replicate this issue
 
-Input an empty string when prompted.
+Input an invalid username. For example, and empty one.
 
 ## What should happen
 
-The program should
+The program should resort to a random username.
 
 ## Optional: suspected code causing this issue
 
 ```rust
-println!("Enter a username:");
-let username = input();
-if ! is_valid(username) {
-return;
+fn main() {
+    println!("Enter a username:");
+    let username = input();
+
+    if !is_valid(username) {
+        return;
+    }
+    /* code emitted */
 }
 ```
 
@@ -35,10 +39,13 @@ fn generate_random_username() -> String {
     /* code emitted */
 }
 
-println!("Enter a username:");
-let mut username = input();
+fn main() {
+    println!("Enter a username:");
+    let mut username = input();
 
-if !is_valid(username) {
-    username = generate_random_username();
+    if !is_valid(username) {
+        username = generate_random_username();
+    }
+    /* code emitted */
 }
 ```

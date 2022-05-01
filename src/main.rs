@@ -1,3 +1,5 @@
+//! The main file for the hello-world project.
+
 use std::{io, process};
 use std::env;
 use std::io::{Stdout, Write};
