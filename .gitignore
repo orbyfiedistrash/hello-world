@@ -1,0 +1,9 @@
+# IDE-related files and directories
+.idea/
+hello-world.iml
+
+# Build-related
+target/
+
+# Cargo-related
+Cargo.lock
